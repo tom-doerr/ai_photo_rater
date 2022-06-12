@@ -55,19 +55,25 @@ c = Client('grpcs://demo-cas.jina.ai:2096')
 
 
 
-def rate_image(image_path, target, opposite):
-    r = c.rank(
-        [
-            Document(
-                # uri='https://www.pngall.com/wp-content/uploads/12/Britney-Spears-PNG-Image-File.png',
-                uri=image_path,
-                matches=[
-                    Document(text=target),
-                    Document(text=opposite),
-                ],
-            )
-        ]
-    )
+def rate_image(image_path, target, opposite, attempt=0):
+    try:
+        r = c.rank(
+            [
+                Document(
+                    # uri='https://www.pngall.com/wp-content/uploads/12/Britney-Spears-PNG-Image-File.png',
+                    uri=image_path,
+                    matches=[
+                        Document(text=target),
+                        Document(text=opposite),
+                    ],
+                )
+            ]
+        )
+    except ConnectionError as e:
+        print(e)
+        print(f'Retrying... {attempt}')
+        time.sleep(2**attempt)
+        return rate_image(image_path, target, opposite, attempt + 1)
     text_and_scores = r['@m', ['text', 'scores__clip_score__value']]
     index_of_good_text = text_and_scores[0].index(target)
     score =  text_and_scores[1][index_of_good_text]
