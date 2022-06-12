@@ -76,17 +76,45 @@ def create_analysis(filename, target, opposite, label):
     import plotly.graph_objects as go
 
     # same plot just showing beauty in percentage
-    fig = go.Figure(data=[go.Bar(x=[label], y=[score*100])])
+    fig = go.Figure(data=[go.Bar(x=[label], y=[score*100])], layout=go.Layout(title=f'{label}'))
     # range 0 to 100 for the y axis:
     fig.update_layout(yaxis=dict(range=[0, 100]))
 
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, use_container_width=True)
 
 
 
 
 # score = rate_image(filename_path, 'the person is pretty', 'the person is ugly')
-create_analysis(filename_path, 'the person is pretty', 'the person is ugly', 'Beauty')
-create_analysis(filename_path, 'the person is trustworthy', 'the person is dishonest', 'Trustworthiness')
-create_analysis(filename_path, 'the person is smart', 'the person is stupid', 'Intelligence')
+
+if False:
+    col1, col2, col3 = st.columns([10,10,10])
+    with col1:
+        create_analysis(filename_path, 'the person is pretty', 'the person is ugly', 'Beauty')
+
+    with col2:
+        create_analysis(filename_path, 'the person is trustworthy', 'the person is dishonest', 'Trustworthiness')
+
+    with col3:
+        create_analysis(filename_path, 'the person is smart', 'the person is stupid', 'Intelligence')
+
+
+
+
+score_beauty = rate_image(filename_path, 'the person is pretty', 'the person is ugly')
+score_trustworthiness = rate_image(filename_path, 'the person is trustworthy', 'the person is dishonest')
+score_intelligence = rate_image(filename_path, 'the person is smart', 'the person is stupid')
+
+
+# plot them
+import plotly.graph_objects as go
+
+
+fig = go.Figure(data=[go.Bar(x=['Beauty', 'Trustworthiness', 'Intelligence'], y=[score_beauty*100, score_trustworthiness*100, score_intelligence*100])], layout=go.Layout(title='Scores'))
+# range 0 to 100 for the y axis:
+fig.update_layout(yaxis=dict(range=[0, 100]))
+
+st.plotly_chart(fig, use_container_width=True)
+
+
 
