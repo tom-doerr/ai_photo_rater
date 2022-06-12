@@ -17,6 +17,12 @@ if not photo_file:
     st.write("Please upload a photo")
     st.stop()
 
+
+col1, col2, col3 = st.columns([10,10,10])
+with col2:
+    st.image(photo_file, use_column_width=True)
+
+
 # save it
 filename = f'{time.time()}'.replace('.', '_')
 filename_path = f'{IMAGES_FOLDER}/{filename}'
