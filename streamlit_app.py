@@ -51,8 +51,9 @@ if not photo_file:
 
 
 col1, col2, col3 = st.columns([10,10,10])
-with col2:
-    st.image(photo_file, use_column_width=True)
+with st.spinner('Loading...'):
+    with col2:
+        st.image(photo_file, use_column_width=True)
 
 
 # save it
@@ -139,20 +140,21 @@ if False:
 
 
 
-score_beauty = rate_image(filename_path, 'the person is pretty', 'the person is ugly')
-score_trustworthiness = rate_image(filename_path, 'the person is trustworthy', 'the person is dishonest')
-score_intelligence = rate_image(filename_path, 'the person is smart', 'the person is stupid')
+with st.spinner('Rating your photo...'):
+    score_beauty = rate_image(filename_path, 'the person is pretty', 'the person is ugly')
+    score_trustworthiness = rate_image(filename_path, 'the person is trustworthy', 'the person is dishonest')
+    score_intelligence = rate_image(filename_path, 'the person is smart', 'the person is stupid')
 
 
-# plot them
-import plotly.graph_objects as go
+    # plot them
+    import plotly.graph_objects as go
 
 
-fig = go.Figure(data=[go.Bar(x=['Beauty', 'Trustworthiness', 'Intelligence'], y=[score_beauty*100, score_trustworthiness*100, score_intelligence*100])], layout=go.Layout(title='Scores'))
-# range 0 to 100 for the y axis:
-fig.update_layout(yaxis=dict(range=[0, 100]))
+    fig = go.Figure(data=[go.Bar(x=['Beauty', 'Trustworthiness', 'Intelligence'], y=[score_beauty*100, score_trustworthiness*100, score_intelligence*100])], layout=go.Layout(title='Scores'))
+    # range 0 to 100 for the y axis:
+    fig.update_layout(yaxis=dict(range=[0, 100]))
 
-st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)
 
 
 
