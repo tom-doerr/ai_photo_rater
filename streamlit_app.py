@@ -101,8 +101,12 @@ def create_analysis(filename, target, opposite, label):
 def process_image(photo_file):
     col1, col2, col3 = st.columns([10,10,10])
     with st.spinner('Loading...'):
+        with col1:
+            st.write('')
         with col2:
             st.image(photo_file, use_column_width=True)
+        with col3:
+            st.write('')
 
 
     # save it
@@ -132,8 +136,41 @@ def process_image(photo_file):
 
         st.plotly_chart(fig, use_container_width=True)
 
+    scores = {
+        'beauty': score_beauty,
+        'trustworthiness': score_trustworthiness,
+        'intelligence': score_intelligence,
+        'avg': (score_beauty + score_trustworthiness + score_intelligence) / 3
+    }
+    return filename_path, scores
 
 
+def get_best_image(image_scores_list, metric):
+    best_image = image_scores_list[0][0]
+    best_score = image_scores_list[0][1][metric]
+    for image, scores in image_scores_list[2:]:
+        if scores[metric] > best_score:
+            best_image = image
+            best_score = scores[metric]
+    return best_image
+
+
+
+
+image_scores_list = []
 for photo_file in photo_files:
-    process_image(photo_file)
+    # process_image(photo_file)
+    filename_path, scores = process_image(photo_file)
+    # image_scores_list.append((filename_path, scores))
+    image_scores_list.append((photo_file, scores))
     st.markdown('---')
+
+
+if len(photo_files) > 1:
+    st.title('Best image')
+    metric = st.selectbox('Select a metric', ['avg', 'beauty', 'trustworthiness', 'intelligence'])
+    image_file = get_best_image(image_scores_list, metric)
+    # st.image(image_file, use_column_width=True)
+    # from PIL import Image
+    # image_file = Image.open(image_path)
+    process_image(image_file)
