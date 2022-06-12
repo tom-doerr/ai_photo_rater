@@ -7,6 +7,38 @@ import os
 # photo upload
 
 IMAGES_FOLDER = 'images'
+PAGE_LOAD_LOG_FILE = 'page_load_log.txt'
+
+st.set_page_config(page_title='Photo Rating AI', initial_sidebar_state="collapsed")
+
+
+
+def log_page_load():
+    with open(PAGE_LOAD_LOG_FILE, 'a') as f:
+        f.write(f'{time.time()}\n')
+
+
+def get_num_page_loads():
+    with open(PAGE_LOAD_LOG_FILE, 'r') as f:
+        return len(f.readlines())
+
+def get_earliest_page_load_time():
+    with open(PAGE_LOAD_LOG_FILE, 'r') as f:
+        lines = f.readlines()
+        unix_time = float(lines[0])
+
+    date_string = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(unix_time))
+    return date_string
+
+
+
+
+
+
+
+log_page_load()
+st.sidebar.write(f'Page loads: {get_num_page_loads()}')
+st.sidebar.write(f'Earliest page load: {get_earliest_page_load_time()}')
 
 os.makedirs(IMAGES_FOLDER, exist_ok=True)
 
