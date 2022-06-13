@@ -54,7 +54,7 @@ if not photo_files:
 c = Client('grpcs://demo-cas.jina.ai:2096')
 
 
-
+@st.cache(show_spinner=False)
 def rate_image(image_path, target, opposite, attempt=0):
     try:
         r = c.rank(
@@ -78,23 +78,6 @@ def rate_image(image_path, target, opposite, attempt=0):
     index_of_good_text = text_and_scores[0].index(target)
     score =  text_and_scores[1][index_of_good_text]
     return score
-
-
-def create_analysis(filename, target, opposite, label):
-    score = rate_image(filename_path, target, opposite)
-    # st.write(score)
-
-    # st.write(f'The score is {score}')
-
-    import plotly.graph_objects as go
-
-    # same plot just showing beauty in percentage
-    fig = go.Figure(data=[go.Bar(x=[label], y=[score*100])], layout=go.Layout(title=f'{label}'))
-    # range 0 to 100 for the y axis:
-    fig.update_layout(yaxis=dict(range=[0, 100]))
-
-    st.plotly_chart(fig, use_container_width=True)
-
 
 
 
