@@ -9,9 +9,10 @@ import os
 IMAGES_FOLDER = 'images'
 PAGE_LOAD_LOG_FILE = 'page_load_log.txt'
 
-st.set_page_config(page_title='Photo Rating AI', initial_sidebar_state="collapsed")
+st.set_page_config(page_title='AI Photo Rater', initial_sidebar_state="collapsed")
 
 
+st.title('AI Photo Rater')
 
 def log_page_load():
     with open(PAGE_LOAD_LOG_FILE, 'a') as f:
@@ -44,6 +45,8 @@ os.makedirs(IMAGES_FOLDER, exist_ok=True)
 
 # photo_file = st.file_uploader("Upload a photo", type=["jpg", "png"])
 photo_files = st.file_uploader("Upload a photo", accept_multiple_files=True)
+# sort them
+photo_files = sorted(photo_files, key=lambda x: x.name)
 
 if not photo_files:
     st.write("Please upload a photo")
@@ -80,7 +83,7 @@ def rate_image(image_path, target, opposite, attempt=0):
     return score
 
 
-
+# @st.cache
 def process_image(photo_file):
     col1, col2, col3 = st.columns([10,10,10])
     with st.spinner('Loading...'):
@@ -104,7 +107,7 @@ def process_image(photo_file):
 
 
     with st.spinner('Rating your photo...'):
-        score_beauty = rate_image(filename_path, 'the person is pretty', 'the person is ugly')
+        score_beauty = rate_image(filename_path, 'the person is attractive', 'the person is unattractive')
         score_trustworthiness = rate_image(filename_path, 'the person is trustworthy', 'the person is dishonest')
         score_intelligence = rate_image(filename_path, 'the person is smart', 'the person is stupid')
 
@@ -157,3 +160,13 @@ if len(photo_files) > 1:
     # from PIL import Image
     # image_file = Image.open(image_path)
     process_image(image_file)
+
+
+st.markdown('---')
+
+col1, col2, col3 = st.columns([10,10,10])
+with col1:
+    st.markdown('[GiHub Repo](https://github.com/tom-doerr/ai_photo_rater)')
+
+with col2:
+    st.markdown('Powered by [Jina.ai](https://jina.ai/)')
