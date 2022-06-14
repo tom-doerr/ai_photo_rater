@@ -9,10 +9,11 @@ import os
 IMAGES_FOLDER = 'images'
 PAGE_LOAD_LOG_FILE = 'page_load_log.txt'
 METRIC_TEXTS = {
-    'Attractivness': ('the person is attractive', 'the person is unattractive'),
-    'Hotness': ('the person is hot', 'the person is ugly'),
-    'Trustworthiness': ('the person is trustworthy', 'the person is dishonest'),
-    'Intelligence': ('the person is smart', 'the person is stupid'),
+    'Attractivness': ('this person is attractive', 'this person is unattractive'),
+    'Hotness': ('this person is hot', 'this person is ugly'),
+    'Trustworthiness': ('this person is trustworthy', 'this person is dishonest'),
+    'Intelligence': ('this person is smart', 'this person is stupid'),
+    'Quality': ('this image looks good', 'this image looks bad'),
 }
 
 st.set_page_config(page_title='AI Photo Rater', initial_sidebar_state="auto")
@@ -40,7 +41,7 @@ def get_earliest_page_load_time():
 
 
 def show_sidebar_metrics():
-    metric_options = ['Attractivness', 'Hotness', 'Trustworthiness', 'Intelligence']
+    metric_options = list(METRIC_TEXTS.keys())
     default_metrics = ['Attractivness', 'Trustworthiness', 'Intelligence'] 
     st.sidebar.title('Metrics')
     # metric = st.sidebar.selectbox('Select a metric', metric_options)
