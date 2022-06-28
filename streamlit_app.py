@@ -166,7 +166,7 @@ def process_image(photo_file, metrics):
             target = metric_texts[metric][0]
             opposite = metric_texts[metric][1]
             score = rate_image(filename_path, target, opposite)
-            score_scaled = 100 * (score - 0.5)
+            score_scaled = 10 * (score - 0.5)
             score_sigmoide = 1 / (1 + math.exp(-score_scaled))
             
             # scores[metric] = score
