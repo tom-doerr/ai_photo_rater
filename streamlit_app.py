@@ -9,7 +9,10 @@ import os
 IMAGES_FOLDER = 'images'
 PAGE_LOAD_LOG_FILE = 'page_load_log.txt'
 METRIC_TEXTS = {
+    'Business Fromal': ('business formal', 'not business formal'),
+    'Business Professional': ('business professional', 'not business professional'),
     'Business Casual': ('business casual', 'not business casual'),
+    'Casual': ('casual', 'not casual'),
     'Attractivness': ('this person is attractive', 'this person is unattractive'),
     'Hotness': ('this person is hot', 'this person is ugly'),
     'Trustworthiness': ('this person is trustworthy', 'this person is dishonest'),
@@ -43,7 +46,7 @@ def get_earliest_page_load_time():
 
 def show_sidebar_metrics():
     metric_options = list(METRIC_TEXTS.keys())
-    default_metrics = ['Business Casual']
+    default_metrics = ['Business Fromal', 'Business Professional', 'Business Casual', 'Casual']
     st.sidebar.title('Metrics')
     # metric = st.sidebar.selectbox('Select a metric', metric_options)
     selected_metrics = []
