@@ -159,6 +159,7 @@ def process_image(photo_file, metrics):
 
 
 
+    import math
     with st.spinner('Rating your photo...'):
         scores = dict()
         for metric in metrics:
