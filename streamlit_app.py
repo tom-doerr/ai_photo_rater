@@ -17,10 +17,10 @@ METRIC_TEXTS = {
     'Quality': ('this image looks good', 'this image looks bad'),
 }
 
-st.set_page_config(page_title='AI Photo Rater', initial_sidebar_state="auto")
+st.set_page_config(page_title='Dress Code Rater', initial_sidebar_state="auto")
 
 
-st.title('AI Photo Rater')
+st.title('Dress Code Rater')
 
 def log_page_load():
     with open(PAGE_LOAD_LOG_FILE, 'a') as f:
@@ -43,7 +43,7 @@ def get_earliest_page_load_time():
 
 def show_sidebar_metrics():
     metric_options = list(METRIC_TEXTS.keys())
-    default_metrics = ['Attractivness', 'Trustworthiness', 'Intelligence'] 
+    default_metrics = ['Business Casual']
     st.sidebar.title('Metrics')
     # metric = st.sidebar.selectbox('Select a metric', metric_options)
     selected_metrics = []
