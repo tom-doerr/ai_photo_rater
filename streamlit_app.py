@@ -9,6 +9,7 @@ import os
 IMAGES_FOLDER = 'images'
 PAGE_LOAD_LOG_FILE = 'page_load_log.txt'
 METRIC_TEXTS = {
+    'Business Casual': ('business casual', 'not business casual'),
     'Attractivness': ('this person is attractive', 'this person is unattractive'),
     'Hotness': ('this person is hot', 'this person is ugly'),
     'Trustworthiness': ('this person is trustworthy', 'this person is dishonest'),
@@ -86,12 +87,18 @@ if custom_key:
         metrics.append(list(custom_metric.keys())[0])
         metric_texts = {**metric_texts, **custom_metric}
 
+
+
 os.makedirs(IMAGES_FOLDER, exist_ok=True)
 
 # photo_file = st.file_uploader("Upload a photo", type=["jpg", "png"])
 photo_files = st.file_uploader("Upload a photo", accept_multiple_files=True)
 # sort them
 photo_files = sorted(photo_files, key=lambda x: x.name)
+
+if len(metrics) == 0:
+    st.write('No metrics selected')
+    st.stop()
 
 if not photo_files:
     st.stop()
